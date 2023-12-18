@@ -1,0 +1,54 @@
+#!/bin/bash
+
+# Install all packages
+yay -S --noconfirm autoconf autoconf-archive base-devel multilib-devel arch-install-scripts \
+gdb ninja gcc cmake meson libxcb xcb-proto xcb-util xcb-util-keysyms libxfixes libx11 libxcomposite \
+xorg-xinput libxrender pixman wayland-protocols cairo pango seatd libxkbcommon xcb-util-wm xorg-xwayland \
+libinput libliftoff libdisplay-info cpio tomlplusplus nodejs go libnotify
+
+# XDG
+xdg-utils xdg-desktop-portal xdg-desktop-portal-hyprland \
+xdg-desktop-portal-wlr xdg-desktop-portal-gtk xdg-user-dirs
+
+xdg-user-dirs-update
+
+# Programs
+hyprland-git eww-wayland libnotify libcanberra \
+hyprpaper swayidle swaylock-effects-git neofetch duf \
+wl-clipboard cliphist pulsemixer myxer-bin light jaq \
+networkmanager sound-theme-freedesktop socat jo jq \
+rofi-lbonn-wayland dunst trayer mpvpaper macchina \
+nitch socat geticons fuzzel dolphin foot kitty \
+alacritty nano waybar-hyprland pamixer starship bluez \
+wofi fuzzel mako wlogout thunar swaylock-effects swww \
+python-requests tk zenity yad mpd mpc ncmpcpp batify \
+swaync pipewire wireplumber cliphist wl-clipboard clipman \
+swww vim neovim neovide nwg-look python tk python-rich \
+python-pyperclip python-pipx python-pip aconfmgr-git jo jq \
+gtk-2 gtk3 gtk4 gtk-layer-shell gtk4-layer-shell waybar-hyprland-git \
+eww-wayland aylurs-gtk-shell mpv mpd vlc notepadqq visual-studio-code-bin \
+geany geany-plugins kvantum google-chrome stacer-bin \
+rofi-lbonn-wayland-git deadd-notification-center polkit-kde-agent
+
+# Fonts
+ttf-anonymouspro-nerd ttf-jetbrains-mono-nerd \
+ttf-ubuntu-nerd ttf-meslo-nerd papirus-icon-theme \
+nerd-fonts-inter noto-fonts-emoji
+
+# Copy Config Files
+read -n1 -rep "Would you like to copy config files? (y)" CFG
+if [[ $CFG =~ ^[Yy]$ ]]; then
+    printf "Copying config files...\n"
+    cp -r dotconfig/dunst ~/.config/ 2>&1 | tee -a $LOG
+    # Add other cp commands for config files as needed
+    chmod +x ~/.config/hypr/xdg-portal-hyprland
+    chmod +x ~/.config/waybar/scripts/waybar-wttr.py
+fi
+
+# GIT
+git clone https://github.com/yeyushengfan258/Inverse-dark-kde.git && cd Inverse-dark-kde && ./install.sh
+git clone https://aur.archlinux.org/breath-gtk-theme.git && cd breath-gtk-theme && makepkg -si
+git clone https://aur.archlinux.org/macchina.git && cd macchina && makepkg -si
+
+# Themes and Icons
+yay -S --noconfirm dracula-gtk-theme dracula-icons-git
